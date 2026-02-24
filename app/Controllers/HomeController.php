@@ -3,16 +3,23 @@
 namespace App\Controllers;
 
 use Framework\Response;
+use Framework\ResponseFactory;
 
 class HomeController
 {
+    private ResponseFactory $responseFactory;
+
+    public function __construct(ResponseFactory $responseFactory)
+    {
+        $this->responseFactory = $responseFactory;
+    }
     public function index(): Response
     {
-        return new Response('Welcome to Taskey');
+        return $this->responseFactory->view('index.html.twig');
     }
 
     public function about(): Response
     {
-        return new Response('Taskey is awesome!');
+        return $this->responseFactory->view('about.html.twig');
     }
 }

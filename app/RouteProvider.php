@@ -6,18 +6,25 @@ use App\Controllers\HomeController;
 use App\Controllers\TaskController;
 use Framework\RouteProviderInterface;
 use Framework\Router;
+use Framework\ServiceContainer;
+use phpDocumentor\GraphViz\Exception;
 
 class RouteProvider implements RouteProviderInterface
 {
-    public function register(Router $router): void
+    /**
+     * @throws Exception
+     */
+    public function register(Router $router, ServiceContainer $container): void
     {
-        $homeController = new HomeController();
-
+        /** @var HomeController $homeController */
+        $homeController = $container->get(HomeController::class);
         $router->addRoute('GET', '/', [$homeController, 'index']);
         $router->addRoute('GET', '/about', [$homeController, 'about']);
 
-        $taskController = new TaskController();
+        /** @var TaskController $taskController */
+        $taskController = $container->get(TaskController::class);
         $router->addRoute('GET', '/tasks', [$taskController, 'index']);
         $router->addRoute('GET', '/tasks/create', [$taskController, 'create']);
+        $router->addRoute('GET', '/tasks/(?<id>\d+)', [$taskController, 'show']);
     }
 }
