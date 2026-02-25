@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 
+use App\Repositories\TaskRepository;
+use App\Repositories\TaskRepositoryInterface;
 use Framework\Request;
 use Framework\Response;
 use Framework\ResponseFactory;
@@ -10,13 +12,19 @@ class TaskController
 {
     private ResponseFactory $responseFactory;
 
-    public function __construct(ResponseFactory $responseFactory)
+    private TaskRepositoryInterface $taskRepository;
+
+    public function __construct(ResponseFactory $responseFactory, TaskRepositoryInterface $taskRepository)
     {
         $this->responseFactory = $responseFactory;
+        $this->taskRepository = $taskRepository;
     }
     public function index(): Response
     {
-        return $this->responseFactory->view('tasks/index.html.twig');
+        $tasks = $this->taskRepository->all();
+        return $this->responseFactory->view('tasks/index.html.twig', [
+            'tasks' => $tasks
+        ]);
     }
     public function create(): Response
     {
@@ -25,9 +33,13 @@ class TaskController
 
     public function show(Request $request): Response
     {
-        $taskId = $request->get('id');
+        $taskId = (int)$request->get('id');
+        $task = $this->taskRepository->find($taskId);
+        if (!$task) {
+            return $this->responseFactory->notFound();
+        }
         return $this->responseFactory->view('tasks/show.html.twig', [
-           'id' => $taskId ?? ''
+           'task' => $task
         ]);
     }
 }

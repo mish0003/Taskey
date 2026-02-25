@@ -5,5 +5,8 @@
 {% block content %}
     <h2>Tasks</h2>
     <p>List all tasks</p>
+     {% for task in tasks %}
+         <p>{{ task.id }}.{{ task.title }}</p>
+     {% endfor %}
     <p><a href="/tasks/create">Create a New Task</a></p>
 {% endblock %}

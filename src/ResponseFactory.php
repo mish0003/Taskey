@@ -2,8 +2,6 @@
 
 namespace Framework;
 
-use Twig;
-
 class ResponseFactory
 {
     private \Twig\Environment $twig;
@@ -21,7 +19,7 @@ class ResponseFactory
 
     /**
      * @param string $view
-     * @param string[] $parameters
+     * @param array<string, mixed> $parameters
      * @return Response
      */
     public function view(string $view, mixed $parameters = []): Response

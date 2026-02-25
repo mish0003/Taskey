@@ -4,6 +4,7 @@ namespace App;
 
 use App\Controllers\HomeController;
 use App\Controllers\TaskController;
+use App\Repositories\TaskRepository;
 use Framework\ResponseFactory;
 use Framework\ServiceContainer;
 use Framework\ServiceProviderInterface;
@@ -21,7 +22,8 @@ class ServiceProvider implements ServiceProviderInterface
         $homeController = new HomeController($responseFactory);
         $container->set(HomeController::class, $homeController);
 
-        $taskController = new TaskController($responseFactory);
+        $taskRepository = new TaskRepository();
+        $taskController = new TaskController($responseFactory, $taskRepository);
         $container->set(TaskController::class, $taskController);
     }
 }
