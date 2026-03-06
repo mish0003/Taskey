@@ -1,0 +1,19 @@
+{% extends "projects/base.twig" %}
+
+{% block content %}
+    <form method="POST" action="/projects/{{ project.id }}/delete">
+        <div class="card shadow-sm">
+            <div class="card-header">
+                <strong>Delete Project</strong>
+            </div>
+            <div class="card-body">
+                <p>Are you sure you want to delete the project <strong>{{ project.title }}</strong>?</p>
+            </div>
+            <div class="card-footer d-flex gap-2">
+                <button type="submit" class="btn btn-danger">
+                    Delete Project
+                </button>
+            </div>
+        </div>
+    </form>
+{% endblock %}

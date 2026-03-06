@@ -48,4 +48,25 @@ class ResponseFactory
             return $response;
         }
     }
+    public function redirect(string $url): Response
+    {
+        $response = new Response();
+        $response->responseCode = 302;
+        $response->header = 'Location: ' . $url;
+        return  $response;
+    }
+
+    public function internalError(): Response
+    {
+        $response = new Response();
+        try {
+            $response->responseCode = 500;
+            $response->body = $this->twig->render('500.html.twig');
+            return $response;
+        } catch (\Exception $e) {
+            $response->responseCode = 500;
+            $response->body = $e->getMessage();
+            return $response;
+        }
+    }
 }

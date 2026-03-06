@@ -26,6 +26,10 @@ class Kernel
         $viewsPath = $this->configManager->get('VIEWS_PATH');
         $responseFactory = new ResponseFactory($debugMode, $viewsPath);
 
+        $dbName = $this->configManager->get('APP_DB');
+        $database = new Database(__DIR__ . '/../' . $dbName);
+        $this->serviceContainer->set(Database::class, $database);
+
         $this->serviceContainer->set(ResponseFactory::class, $responseFactory);
 
         $this->router = new Router($responseFactory);
@@ -43,5 +47,10 @@ class Kernel
     public function handle(Request $request): Response
     {
         return $this->router->dispatch($request);
+    }
+
+    public function getDatabase(): Database
+    {
+        return $this->serviceContainer->get(Database::class);
     }
 }

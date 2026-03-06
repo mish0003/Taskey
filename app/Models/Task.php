@@ -19,4 +19,15 @@ class Task
     public int $createdAt;
 
     public ?int $completedAt;
+
+    public ?int $projectId;
+
+    public function __construct()
+    {
+        $this->priority = 0;
+        $this->status = 0;
+        $this->progress = 0;
+        $this->createdAt = time();
+        $this->completedAt = null;
+    }
 }
